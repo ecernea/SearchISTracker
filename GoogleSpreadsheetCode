@@ -1,0 +1,21 @@
+function CheckIS() {
+  // Fetch the impression share
+  var ISRange = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Pivot").getRange("c17"); 
+  var ISValue = ISRange.getValue();
+ // Fetch cutoff value
+  var cutoffRange = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Email Configuration").getRange("B2");
+  var cutoffValue = cutoffRange.getValue();
+  
+  // Check totals sales
+  if (ISValue < cutoffValue){
+    // Fetch the email address
+    var emailRange = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Email Configuration").getRange("B1");
+    var emailAddress = emailRange.getValue();
+    var campaignRange = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Email Configuration").getRange("B3");
+    var campaignName = campaignRange.getValue();
+    // Send Alert Email.
+    var message = 'Yesterday, the Search Impression Share for ' + campaignName +' was ' + ISValue; // Second column
+    var subject = 'UMGC Low Impression Share Alert';
+    MailApp.sendEmail(emailAddress, subject, message);
+    } 
+}
